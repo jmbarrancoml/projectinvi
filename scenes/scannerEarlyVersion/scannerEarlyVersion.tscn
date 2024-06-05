@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://bj6je762o3jek"]
+
+[ext_resource type="Texture2D" uid="uid://dphmqfw5l1ylw" path="res://scenes/scannerEarlyVersion/def_texture.png" id="1_0oury"]
+[ext_resource type="Script" path="res://scenes/scannerEarlyVersion/scannerEarlyVersion.gd" id="1_v431k"]
+[ext_resource type="PackedScene" uid="uid://ct7qla1rdpm6j" path="res://scenes/scannerEarlyVersion/scannerDot.tscn" id="2_johlr"]
+[ext_resource type="PackedScene" uid="uid://de072aa6ygly6" path="res://models/scannerModel.gltf" id="4_vq87e"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_upctc"]
+
+[node name="ScannerEarlyVersion" type="Node3D" node_paths=PackedStringArray("scanningTimer")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.580116, 0)
+script = ExtResource("1_v431k")
+scanningTimer = NodePath("scannerVisuals/scanningTimer")
+
+[node name="detectionArea" type="Area3D" parent="."]
+
+[node name="detectionCollider" type="CollisionShape3D" parent="detectionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.275, 0, 0, 0)
+shape = SubResource("SphereShape3D_upctc")
+
+[node name="screenModel" parent="." instance=ExtResource("4_vq87e")]
+transform = Transform3D(3, 0, 0, 0, -4.37114e-08, -3, 0, 1, -1.31134e-07, 0, 0, -0.3)
+
+[node name="scannerVisuals" type="Node3D" parent="."]
+
+[node name="scannerScreen" type="Sprite3D" parent="scannerVisuals"]
+transform = Transform3D(0.350661, 0, 0, 0, 0.631649, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+modulate = Color(0, 0, 0.2, 1)
+texture = ExtResource("1_0oury")
+
+[node name="scanningTimer" type="Timer" parent="scannerVisuals"]
+wait_time = 1.5
+one_shot = true
+
+[node name="ScannerDot" parent="scannerVisuals" instance=ExtResource("2_johlr")]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0, 0.00238103)
+color = Color(0.854902, 0, 0, 1)
+isPlayer = true
+
+[connection signal="body_exited" from="detectionArea" to="." method="_on_detection_area_body_exited"]

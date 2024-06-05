@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://bj6je762o3jek"]
+
+[ext_resource type="Texture2D" uid="uid://dphmqfw5l1ylw" path="res://scenes/scannerEarlyVersion/def_texture.png" id="1_0oury"]
+[ext_resource type="Script" path="res://scenes/scannerEarlyVersion/scannerEarlyVersion.gd" id="1_v431k"]
+[ext_resource type="PackedScene" uid="uid://ct7qla1rdpm6j" path="res://scenes/scannerEarlyVersion/scannerDot.tscn" id="2_johlr"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_upctc"]
+
+[node name="ScannerEarlyVersion" type="Node3D" node_paths=PackedStringArray("scanningTimer")]
+transform = Transform3D(0.281114, 0, 0, 0, 0.281114, 0, 0, 0, 1, 0, 0.580116, 0)
+script = ExtResource("1_v431k")
+scanningTimer = NodePath("scanningTimer")
+scanningDistance = null
+detectableObjects = null
+
+[node name="scannerScreen" type="Sprite3D" parent="."]
+transform = Transform3D(0.350661, 0, 0, 0, 0.631649, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+modulate = Color(0, 0, 0.2, 1)
+texture = ExtResource("1_0oury")
+
+[node name="scanningTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="ScannerDot" parent="." instance=ExtResource("2_johlr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.00238103)
+
+[node name="detectionArea" type="Area3D" parent="."]
+
+[node name="detectionCollider" type="CollisionShape3D" parent="detectionArea"]
+shape = SubResource("SphereShape3D_upctc")
